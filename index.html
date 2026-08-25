@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FlowPlayground</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=SF+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="logo-icon">◆</div>
+            <span class="logo-text">FlowPlayground</span>
+        </div>
+        <div class="nav-links">
+            <button id="nav-home" class="nav-btn active">Home</button>
+            <button id="nav-marketplace" class="nav-btn">FlowStore</button>
+        </div>
+    </nav>
+
+    <!-- HOME VIEW -->
+    <section id="view-home" class="view active">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">FlowUI Powered</div>
+                <h1 class="hero-title">Build 2D Games.<br>Powered by <span class="highlight">FlowScript</span>.</h1>
+                <p class="hero-subtitle">A next-generation game development environment inspired by Xcode — designed for creators who think in code and dream in pixels.</p>
+
+                <div class="hero-actions">
+                    <button id="btn-new-project" class="btn-primary btn-large">
+                        <span class="btn-icon">+</span>
+                        <span class="btn-text">Create new project…</span>
+                    </button>
+                    <button id="btn-existing-project" class="btn-secondary btn-large">
+                        <span class="btn-text">Check existing project…</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="recent-projects-container" id="recent-projects-section">
+                <div class="section-header">
+                    <h2>Recent Projects</h2>
+                    <span class="project-count" id="project-count">0 projects</span>
+                </div>
+                <div id="projects-list" class="projects-grid">
+                    <!-- Projects injected here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW PROJECT MODAL -->
+    <div id="modal-new-project" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>Create New Project</h2>
+                <button class="modal-close" id="btn-cancel-project">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="project-name">Project Name</label>
+                    <input type="text" id="project-name" placeholder="My Awesome Game" autocomplete="off">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="project-genre">Genre</label>
+                        <input type="text" id="project-genre" placeholder="Action" list="genre-list">
+                        <datalist id="genre-list">
+                            <option value="Action">
+                            <option value="Adventure">
+                            <option value="RPG">
+                            <option value="Puzzle">
+                            <option value="Strategy">
+                            <option value="Simulation">
+                            <option value="Racing">
+                            <option value="Platformer">
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label for="project-subgenre">Subgenre</label>
+                        <input type="text" id="project-subgenre" placeholder="Platformer" list="subgenre-list">
+                        <datalist id="subgenre-list">
+                            <option value="2D Platformer">
+                            <option value="Top-Down">
+                            <option value="Side-Scroller">
+                            <option value="Metroidvania">
+                            <option value="Roguelike">
+                            <option value="Tower Defense">
+                            <option value="Endless Runner">
+                            <option value="Shooter">
+                        </datalist>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-create-project" class="btn-primary">Create</button>
+                <button id="btn-cancel-project-2" class="btn-ghost">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VALIDATION MODAL -->
+    <div id="modal-validation" class="modal-overlay hidden">
+        <div class="modal-card validation-card">
+            <div class="modal-header">
+                <h2 id="validation-title">Publishing Validation</h2>
+                <button class="modal-close" id="btn-close-validation">×</button>
+            </div>
+            <div class="modal-body validation-body">
+                <div id="validation-status" class="validation-status">
+                    <div class="validation-spinner"></div>
+                    <p>Analyzing game for crashes, lag, and mobile optimization...</p>
+                </div>
+                <div id="validation-results" class="hidden">
+                    <div id="validation-score" class="validation-score"></div>
+                    <div id="validation-errors" class="validation-list"></div>
+                    <div id="validation-warnings" class="validation-list"></div>
+                </div>
+            </div>
+            <div class="modal-footer" id="validation-footer">
+                <button id="btn-publish-anyway" class="btn-primary hidden">Publish Anyway</button>
+                <button id="btn-fix-issues" class="btn-primary">Fix Issues</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDITOR VIEW -->
+    <section id="view-editor" class="view">
+        <div class="editor-toolbar">
+            <button id="btn-back" class="btn-icon btn-back" title="Back to Home">←</button>
+            <div class="toolbar-divider"></div>
+            <span id="project-title" class="project-title">Untitled</span>
+            <span id="project-meta" class="project-meta">Action • Platformer</span>
+            <div class="toolbar-spacer"></div>
+            <button id="btn-toggle-public" class="btn-toggle toggle-private" title="Toggle Visibility">
+                <span class="toggle-icon">🔒</span>
+                <span class="toggle-text">Private</span>
+            </button>
+            <div class="toolbar-divider"></div>
+            <button id="btn-play" class="btn-tool btn-play" title="Run">▶</button>
+            <button id="btn-stop" class="btn-tool btn-stop hidden" title="Stop">⏹</button>
+            <button id="btn-save" class="btn-tool" title="Save">💾</button>
+        </div>
+
+        <div class="editor-workspace">
+            <!-- Code Panel -->
+            <div class="panel code-panel">
+                <div class="panel-header code-header">
+                    <div class="lang-badge">
+                        <span class="lang-dot"></span>
+                        <span class="lang-name">FlowScript</span>
+                    </div>
+                    <div class="code-metrics">
+                        <span id="code-lines">Lines: 0</span>
+                        <span class="metric-divider">|</span>
+                        <span id="code-chars">Chars: 0</span>
+                    </div>
+                </div>
+                <div class="editor-container">
+                    <div id="line-numbers" class="line-numbers">1</div>
+                    <textarea id="code-editor" class="code-input" spellcheck="false" placeholder="// Write your FlowScript here..."></textarea>
+                </div>
+            </div>
+
+            <!-- Emulator Panel -->
+            <div class="panel emulator-panel">
+                <div class="panel-header emulator-header">
+                    <span class="device-label">iPhone 14 Pro</span>
+                    <span class="orientation-badge">Portrait</span>
+                </div>
+                <div class="emulator-container">
+                    <div class="phone-frame">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <canvas id="emulator-canvas" width="393" height="852"></canvas>
+                            <div id="emulator-overlay" class="emulator-overlay">
+                                <div class="overlay-content">
+                                    <div class="play-button">▶</div>
+                                    <p>Tap to Run</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="phone-home-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sprite Panel -->
+        <div class="sprite-drawer">
+            <div class="drawer-header">
+                <div class="drawer-title">
+                    <span class="drawer-icon">🎨</span>
+                    <h3>Sprite Library</h3>
+                </div>
+                <div class="drawer-controls">
+                    <input type="file" id="sprite-upload" accept="image/*" hidden>
+                    <button id="btn-upload-sprite" class="btn-small btn-ghost">
+                        <span>📁</span> Import
+                    </button>
+                    <div class="size-control">
+                        <label>Size</label>
+                        <input type="number" id="sprite-width" value="64" min="8" max="512">
+                        <span>×</span>
+                        <input type="number" id="sprite-height" value="64" min="8" max="512">
+                        <span>px</span>
+                    </div>
+                </div>
+            </div>
+            <div id="sprites-list" class="sprites-scroll">
+                <!-- Sprites injected here -->
+                <div class="sprite-empty" id="sprite-empty">
+                    <p>No sprites yet</p>
+                    <span>Import images to get started</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARKETPLACE VIEW -->
+    <section id="view-marketplace" class="view">
+        <div class="marketplace-hero">
+            <h1>FlowStore</h1>
+            <p>Discover games built by the FlowPlayground community</p>
+            <div class="search-bar">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="marketplace-search" placeholder="Search games, genres, creators...">
+            </div>
+        </div>
+        <div class="marketplace-content">
+            <div class="filters">
+                <button class="filter-chip active" data-filter="all">All Games</button>
+                <button class="filter-chip" data-filter="Action">Action</button>
+                <button class="filter-chip" data-filter="Adventure">Adventure</button>
+                <button class="filter-chip" data-filter="Puzzle">Puzzle</button>
+                <button class="filter-chip" data-filter="RPG">RPG</button>
+                <button class="filter-chip" data-filter="Platformer">Platformer</button>
+            </div>
+            <div id="marketplace-loading" class="marketplace-loading hidden">
+                <div class="loading-spinner"></div>
+                <p>Loading games from global marketplace...</p>
+            </div>
+            <div id="games-list" class="games-grid">
+                <!-- Games injected here -->
+            </div>
+            <div id="marketplace-empty" class="marketplace-empty hidden">
+                <div class="empty-icon">🎮</div>
+                <h3>No public games yet</h3>
+                <p>Be the first to publish a game! Toggle your project to Public in the editor.</p>
+            </div>
+            <div id="marketplace-offline" class="marketplace-empty hidden">
+                <div class="empty-icon">📡</div>
+                <h3>Global marketplace unavailable</h3>
+                <p>Supabase is not configured. Games are stored locally only.</p>
+                <p class="setup-hint">Set up Supabase to see games from all players worldwide.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- GAME PLAYER MODAL -->
+    <div id="modal-player" class="modal-overlay hidden">
+        <div class="modal-card player-card">
+            <div class="player-header">
+                <button id="btn-close-player" class="btn-icon">×</button>
+                <div class="player-title-group">
+                    <h2 id="player-title">Game Title</h2>
+                    <span id="player-genre" class="player-genre">Action • Platformer</span>
+                </div>
+                <button id="btn-player-play" class="btn-primary btn-small">Play Now</button>
+            </div>
+            <div class="player-frame">
+                <div class="phone-frame player-phone">
+                    <div class="phone-notch"></div>
+                    <div class="phone-screen">
+                        <canvas id="player-canvas" width="393" height="852"></canvas>
+                        <div id="player-overlay" class="emulator-overlay">
+                            <div class="overlay-content">
+                                <div class="play-button large">▶</div>
+                                <p>Tap to Play</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="phone-home-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATIONS -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="js/flow-compiler.js"></script>
+    <script src="js/validator.js"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
